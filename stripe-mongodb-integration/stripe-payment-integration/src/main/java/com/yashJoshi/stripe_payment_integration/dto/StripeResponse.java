@@ -8,6 +8,7 @@ import lombok.Data;
 public class StripeResponse {
     private String status;
     private String message;
+    private String paymentId;
     private String sessionId;
     private String sessionUrl;
 }
