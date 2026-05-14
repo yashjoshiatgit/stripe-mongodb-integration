@@ -133,7 +133,7 @@ public class StripeService {
                     .currency(payment.getCurrency())
                     .productName(payment.getProductName())
                     .build());
-            if (response == null || !response.getStatusCode().is2xxSuccessful()) {
+            if (!response.getStatusCode().is2xxSuccessful()) {
                 log.warn("Payment notification returned non-success status for sessionId {}", payment.getSessionId());
             }
         } catch (Exception ex) {
