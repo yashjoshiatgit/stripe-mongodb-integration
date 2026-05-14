@@ -2,6 +2,7 @@ package com.yashJoshi.stripe_payment_integration.client;
 
 import com.yashJoshi.stripe_payment_integration.dto.PaymentNotificationRequest;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -9,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface NotificationClient {
 
     @PostMapping("/api/v1/notifications/payments")
-    void sendPaymentNotification(@RequestBody PaymentNotificationRequest request);
+    ResponseEntity<Void> sendPaymentNotification(@RequestBody PaymentNotificationRequest request);
 }

@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -124,7 +125,7 @@ public class StripeService {
             return;
         }
         try {
-            notificationClient.sendPaymentNotification(PaymentNotificationRequest.builder()
+            ResponseEntity<Void> response = notificationClient.sendPaymentNotification(PaymentNotificationRequest.builder()
                     .paymentId(payment.getId())
                     .sessionId(payment.getSessionId())
                     .status(payment.getPaymentStatus())
@@ -132,6 +133,9 @@ public class StripeService {
                     .currency(payment.getCurrency())
                     .productName(payment.getProductName())
                     .build());
+            if (response == null || !response.getStatusCode().is2xxSuccessful()) {
+                log.warn("Payment notification returned non-success status for sessionId {}", payment.getSessionId());
+            }
         } catch (Exception ex) {
             log.warn("Failed to notify payment service for sessionId {}", payment.getSessionId(), ex);
         }
